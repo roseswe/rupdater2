@@ -1,0 +1,64 @@
+name: Build and Release
+# Workflow: .github/workflows/build.yml  -- 03.10.2024
+# $Id:$
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags like v1.2.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Use Ubuntu runner for cross-compilation
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.16'  # Set Go version
+
+    - name: Build for Windows (32-bit)
+      run: |
+        GOOS=windows GOARCH=386 go build -o build/rupdater.exe main.go
+
+    - name: Build for Linux (32-bit)
+      run: |
+        GOOS=linux GOARCH=386 go build -o build/rupdater main.go
+
+    - name: Create release and upload artifacts
+      id: release
+      uses: gh actions/create-release@v1
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: "Release for version ${{ github.ref }}"
+        draft: false
+        prerelease: false
+
+    - name: Upload Windows binary
+      uses: gh actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: build/rupdater.exe
+        asset_name: rupdater.exe
+        asset_content_type: application/octet-stream
+
+    - name: Upload Linux binary
+      uses: gh actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: build/rupdater
+        asset_name: rupdater
+        asset_content_type: application/octet-stream
+
+    - name: Upload README.md
+      uses: gh actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: README.md
+        asset_name: README.md
+        asset_content_type: text/plain
+  ```
