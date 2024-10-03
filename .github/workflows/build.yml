@@ -18,16 +18,18 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: '1.18'  # Set Go version
+        go-version: '1.16'  # Set Go version
 
     - name: Build for Windows (32-bit)
       run: |
+        mkdir -p build
         GOOS=windows GOARCH=386 go build -o build/rupdater.exe main.go
 
     - name: Build for Linux (32-bit)
       run: |
         GOOS=linux GOARCH=386 go build -o build/rupdater main.go
 
+        # Unable to resolve action gh actions/create-release, repository not found. Unable to resolve action gh actions/upload-release-asset, repository not found
     - name: Create release and upload artifacts
       id: release
       uses: gh actions/create-release@v1
