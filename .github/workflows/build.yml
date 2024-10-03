@@ -5,6 +5,7 @@ on:
   push:
     tags:
       - 'v*'  # Trigger on version tags like v1.2.0
+      - '1.*' # semantic versioning?
 
 jobs:
   build:
@@ -60,4 +61,3 @@ jobs:
         asset_path: README.md
         asset_name: README.md
         asset_content_type: text/plain
-  ```
