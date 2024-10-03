@@ -1,6 +1,5 @@
 name: Build and Release
-# Workflow: .github/workflows/build.yml  -- 03.10.2024
-# $Id:$
+# Workflow: .github/workflows/build.yml  -- 03.10.2024 -- Ralph Roth
 
 on:
   push:
@@ -18,7 +17,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: '1.16'  # Set Go version
+        go-version: '1.18'  # Set Go version
 
     - name: Build for Windows (32-bit)
       run: |

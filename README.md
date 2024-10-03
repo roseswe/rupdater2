@@ -22,7 +22,7 @@ Currently, there is no integrated automated update mechanism for the programs fr
 
 ## Prerequisites for rebuilding
 
-- [Go](https://golang.org/dl/) version 1.18 or higher installed on your machine.
+- [Go](https://golang.org/dl/) version 1.18 or higher installed on your machine. e.g. golang-1.18-go/jammy-updates,jammy-security,now 1.18.1-1ubuntu1.1 amd64 [installed,automatic]
 - `make` (optional, if using the Makefile for building).
 
 ## Installation
