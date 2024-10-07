@@ -1,0 +1,33 @@
+Changelog
+=========
+
+
+(unreleased)
+------------
+
+Fix
+~~~
+- ? build action.... [roseswe]
+
+Other
+~~~~~
+- Add: Makefile targets, enhanced docu. [roseswe]
+
+
+1.0.1 (2024-10-03)
+------------------
+
+Fix
+~~~
+- Makefile:Windows64. [roseswe]
+
+Other
+~~~~~
+- Update build.yml. [Ralph Roth]
+
+  You have an error in your yaml syntax on line 63
+- Add: Git Workflows2. [roseswe]
+- Add: Git Workflows. [roseswe]
+- Init: initial added to Git. [roseswe]
+
+
