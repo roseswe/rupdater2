@@ -2,8 +2,12 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+1.0.2 (2024-10-07)
+------------------
+
+Changes
+~~~~~~~
+- Updated Changelog (by Makefile) 20241007-08:27. [roseswe]
 
 Fix
 ~~~
@@ -11,6 +15,7 @@ Fix
 
 Other
 ~~~~~
+- Add: Changelog. [roseswe]
 - Add: Makefile targets, enhanced docu. [roseswe]
 
 
