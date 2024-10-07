@@ -1,16 +1,19 @@
 
-# Rupdater
+# Rupdater2
 
-Rupdater is a simple Go-based program that downloads files from a remote server, verifies their MD5 hashes, and re-downloads files with mismatches. Optionally, it can delete files that do not match the expected MD5 hash.
+[rupdater2](https://github.com/roseswe/rupdater2) is a simple Go-based program that downloads files from a remote server (the ROSE SWE download page), verifies their MD5 hashes, and re-downloads files with mismatches. Optionally, it can delete files that do not match the expected MD5 hash.
 
 This is the successor of rupdater, a bash script https://github.com/roseswe/rupdater
 
 ## Overview
 
-Currently, there is no integrated automated update mechanism for the programs from **rose_swe**. To address this, we provide a shell script, `rupdater`, to facilitate updates from the following sites:
+Currently, there is no integrated automated update mechanism for the programs from **ROSE SWE**. To address this, we provide a shell script, `rupdater`, to facilitate updates from the following sites:
 
 - [rose.rult.at](http://rose.rult.at/)
 - [cfg2html.com](http://www.cfg2html.com)   - needs source code (URL) modification
+
+As rupdater has some shortcomings (Issue #2) we decided to program a complete new version in Go(lang). [rupdater2](https://github.com/roseswe/rupdater)
+rupdater2 supports beside Linux also Windows environments, which the first version (rupdater) does not. Porting to other platforms like ARM64 is possible.
 
 ## Features
 

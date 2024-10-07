@@ -9,6 +9,10 @@ BUILD_DIR = build
 WINDOWS_ARCH = windows/386
 LINUX_ARCH = linux/386
 
+# Define a variable to hold the date
+current_date_mon := $(shell date +%Y%m)
+current_date_full := $(shell date +%Y%m%d-%H:%M)
+
 # Default target
 all: build-windows build-linux
 
@@ -40,3 +44,12 @@ clean:
 rebuild: clean all
 	@echo "[!] Rebuilding project..."
 
+dist: all
+	upx $(BUILD_DIR)/$(TARGET)*
+	pandoc README.md -t HTML -o readme.html
+	zip -j "rupdater2_$(current_date_mon)"  readme.html $(BUILD_DIR)/$(TARGET)* ChangeLog.txt
+
+changelog:
+	gitchangelog > ChangeLog.txt
+	git commit -a -s -m "chg: Updated Changelog (by Makefile) $(current_date_full)"
+	cat ChangeLog.txt
