@@ -1,5 +1,5 @@
 # Define the target name and Go source files
-# $Id: Makefile,v 1.3 2024/10/07 06:38:42 ralph Exp $
+# $Id: Makefile,v 1.7 2024/10/08 07:58:17 ralph Exp $
 
 TARGET = rupdater
 GOFILES = main.go
@@ -8,6 +8,9 @@ BUILD_DIR = build
 # Define cross-compilation settings for Windows and Linux (32-bit)
 WINDOWS_ARCH = windows/386
 LINUX_ARCH = linux/386
+
+# Global Go flags to remove BuildID
+GOFLAGS := -ldflags "-buildid="
 
 # Define a variable to hold the date
 current_date_mon := $(shell date +%Y%m)
@@ -47,7 +50,8 @@ rebuild: clean all
 dist: all
 	upx $(BUILD_DIR)/$(TARGET)*
 	pandoc README.md -t HTML -o readme.html
-	zip -j "rupdater2_$(current_date_mon)"  readme.html $(BUILD_DIR)/$(TARGET)* ChangeLog.txt
+	zip -j "rupdater2_$(current_date_mon).zip"  readme.html $(BUILD_DIR)/$(TARGET)* ChangeLog.txt rupdater_example.txt
+	describe "rupdater2_$(current_date_mon).zip" -desc="ROSE SWE updater release2 - downloads new software from the ROSE SWE download page"
 
 changelog:
 	gitchangelog > ChangeLog.txt

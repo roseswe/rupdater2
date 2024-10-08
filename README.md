@@ -12,8 +12,9 @@ Currently, there is no integrated automated update mechanism for the programs fr
 - [rose.rult.at](http://rose.rult.at/)
 - [cfg2html.com](http://www.cfg2html.com)   - needs source code (URL) modification
 
-As rupdater has some shortcomings (Issue #2) we decided to program a complete new version in Go(lang). [rupdater2](https://github.com/roseswe/rupdater)
-rupdater2 supports beside Linux also Windows environments, which the first version (rupdater) does not. Porting to other platforms like ARM64 is possible.
+As rupdater (v1, shell script) has some shortcomings (Issue #2) we decided to program a complete new version in Go(lang) -> [rupdater2](https://github.com/roseswe/rupdater)
+
+rupdater2 supports beside Linux also Windows environments, which the first version (rupdater) does not. Porting to other platforms like ARM64 etc. is possible.
 
 ## Features
 
@@ -91,6 +92,42 @@ Alternatively, if you don't have `make`, you can manually cross-compile the proj
 
    ```bash
    ./rupdater -h
+
+   ---=[ rupdater by ROSE SWE, (c) 2024 by Ralph Roth ]=------------------
+   Automatic update program to always get the newest files from ROSE SWE!
+
+   Usage:
+   rupdater [option[s]]
+
+   Options:
+   -d, --delete        Delete the md5sums.md5 file after processing.
+   -k, --keep          Keep files that did not match the MD5 hash.
+   -h, --help, -?      Show help message.
+   -V, --version       Show program version.
+
+   Description:
+   This program downloads files from the ROSE SWE download page listed in the
+   remote file: md5sums.md5, verifies their MD5 checksums, and re-downloads
+   (updates) files with mismatched MD5sums. You can choose to delete the
+   md5sums.md5 file after processing, and optionally keep (broken) files even if
+   their MD5 hash does not match.
+
+   Exit Codes:
+   0  - Success: The program completed without errors.
+   1  - File Download Error: Unable to download the md5sums.md5 file.
+   2  - File Open Error: Failed to open the md5sums.md5 file.
+   3  - File Read Error: Error reading the md5sums.md5 file.
+   4  - File Deletion Error: Error deleting the md5sums.md5 file after
+         processing.
+   5  - MD5 Mismatch Found: MD5 mismatches were detected and files were
+         deleted (if applicable).
+
+   Example:
+   rupdater -d -k
+
+   Downloads files, keeps mismatched files, and deletes the md5sums.md5
+   file when done.
+
    ```
 
 ## Exit Codes
