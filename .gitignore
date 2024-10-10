@@ -6,3 +6,6 @@ readme.html
 rupdater*.zip
 descript.ion
 rupdater_example.txt
+*.swp
+goversioninfo.exe.manifest
+resource.syso

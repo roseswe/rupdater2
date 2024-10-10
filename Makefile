@@ -1,5 +1,5 @@
 # Define the target name and Go source files
-# $Id: Makefile,v 1.7 2024/10/08 07:58:17 ralph Exp $
+# $Id: Makefile,v 1.8 2024/10/10 13:20:50 ralph Exp $
 
 TARGET = rupdater
 GOFILES = main.go
@@ -25,16 +25,17 @@ $(BUILD_DIR):
 
 # Windows (32-bit) build
 build-windows: $(BUILD_DIR)
-	GOOS=windows GOARCH=386 go build -o $(BUILD_DIR)/$(TARGET).exe $(GOFILES)
+	goversioninfo -icon main.ico -o resource.syso
+	GOOS=windows GOARCH=386 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET).exe $(GOFILES)
 	strip $(BUILD_DIR)/$(TARGET).exe
 	@echo "[!] Windows 32-bit executable created: $(BUILD_DIR)/$(TARGET).exe"
-	GOOS=windows GOARCH=amd64 go build -o $(BUILD_DIR)/$(TARGET)64.exe $(GOFILES)
+	GOOS=windows GOARCH=amd64 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET)64.exe $(GOFILES)
 	strip $(BUILD_DIR)/$(TARGET)64.exe
 	@echo "[!] Windows 64-bit executable created: $(BUILD_DIR)/$(TARGET)64.exe"
 
 # Linux (32-bit) build
 build-linux: $(BUILD_DIR)
-	GOOS=linux GOARCH=386 go build -o $(BUILD_DIR)/$(TARGET) $(GOFILES)
+	GOOS=linux GOARCH=386 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET) $(GOFILES)
 	strip $(BUILD_DIR)/$(TARGET)
 	@echo "[!] Linux 32-bit executable created: $(BUILD_DIR)/$(TARGET)"
 

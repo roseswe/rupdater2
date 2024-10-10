@@ -1,3 +1,4 @@
+//go:generate goversioninfo -icon=main.ico -manifest=goversioninfo.exe.manifest
 package main
 
 import (
@@ -13,7 +14,7 @@ import (
 )
 
 // Program version
-const version = "$Id: main.go,v 1.1 2024/10/03 21:20:01 ralph Exp $"
+const version = "$Id: main.go,v 1.3 2024/10/10 13:20:50 ralph Exp $"
 // var BuildDate string // This will be populated during the build
 
 // downloadFile downloads a file from the given URL and saves it as the given file name
@@ -133,9 +134,9 @@ func main() {
 	// Define command-line flags
 	deleteFile := flag.Bool("d", false, "Delete the md5sums.md5 file after processing.")
 	keepFiles := flag.Bool("k", false, "Keep files that did not match the MD5 hash.")
-	showHelp := flag.Bool("h", false, "Show detailed help message.")
-	showVersion := flag.Bool("V", false, "Show program version.")
-	helpAlternative := flag.Bool("?", false, "Show detailed help message.")
+	showHelp := flag.Bool("h", false, "Show a detailed help message.")
+	showVersion := flag.Bool("V", false, "Show the program version.")
+	helpAlternative := flag.Bool("?", false, "Show a detailed help message.")
 	flag.Parse()
 
 	// Handle version display
@@ -151,7 +152,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	// Base URL and downloaded file
+	// Base URL and downloaded file (hardcoded)
 	baseURL := "http://rose-swe.bplaced.net/dl/"
 	downloadedFile := "md5sums.md5"
 	md5URL := baseURL + downloadedFile
@@ -196,9 +197,10 @@ func main() {
 			if err != nil {
 				fmt.Printf("[!] Error downloading file %s: %v\n", fileName, err)
 				continue
+			} else {
+				fmt.Printf("OK!\n")
 			}
-			//fmt.Printf("[!] File %s downloaded successfully.\n", fileName)
-			fmt.Printf("OK!\n")
+			//fmt.Printf("[!] File %s downloaded successfully.\n", fileName)  // debugging....
 		}
 
 		// Step 5: Calculate the MD5 hash of the file
@@ -231,7 +233,7 @@ func main() {
 
 			// Compare again
 			if calculatedMD5 != expectedMD5 {
-				fmt.Printf("[!] WARNING2: MD5 mismatch persists for file %s. Expected: [%s], Got: [%s]\n", fileName, expectedMD5, calculatedMD5)
+				fmt.Printf("[!] WARNING2: MD5 mismatch still persists for file %s. Expected: [%s], Got: [%s]\n", fileName, expectedMD5, calculatedMD5)
 
 				// Delete the mismatched file unless the -k flag is set
 				if !*keepFiles {
