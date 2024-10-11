@@ -26,8 +26,9 @@ rupdater2 supports beside Linux also Windows environments, which the first versi
 
 ## Prerequisites for rebuilding
 
-- [Go](https://golang.org/dl/) version 1.18 or higher installed on your machine. e.g. golang-1.18-go/jammy-updates,jammy-security,now 1.18.1-1ubuntu1.1 amd64 [installed,automatic]
+- [Go](https://golang.org/dl/) version 1.18 or higher installed on your machine. e.g. golang-1.18-go/jammy-updates,jammy-security,now 1.18.1-1ubuntu1.1 amd64 [installed,automatic] - tested successfully also with go 1.23
 - `make` (optional, if using the Makefile for building).
+- if you want to (re)create the distribution ZIP archive you need additional tools like UPX, gitchangelog, pandoc, goversioninfo, describe (rose_swe) etc.
 
 ## Installation
 
@@ -151,4 +152,4 @@ If you find any bugs or have feature requests, please open an issue on the GitHu
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-// END
+// END // $Id: README.md,v 1.7 2024/10/10 19:41:35 ralph Exp $
