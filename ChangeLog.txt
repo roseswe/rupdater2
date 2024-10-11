@@ -2,6 +2,20 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Tested with other go-lang versions, small enhancements. [roseswe]
+- Updated Changelog (by Makefile) 20241007-08:43. [roseswe]
+
+Other
+~~~~~
+- Add: Small enhancements around build process. [roseswe]
+- Add: Added example, included into dist build. [roseswe]
+
+
 1.0.2 (2024-10-07)
 ------------------
 
