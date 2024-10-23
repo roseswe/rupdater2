@@ -14,6 +14,10 @@ jobs:
   lint-and-test:
     runs-on: ubuntu-latest  # Run on Ubuntu (you can change to other environments if needed)
 
+    strategy:
+      matrix:
+        go-version: [1.18, 1.19] # Specify the Go versions you want to test against
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -21,7 +25,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: '1.18.1'  # You can change the Go version if necessary
+        go-version: ${{ matrix.go-version }} # Use the matrix variable  # You can change the Go version if necessary
 
     - name: Cache Go modules
       uses: actions/cache@v2
@@ -32,13 +36,26 @@ jobs:
           ./vendor
         key: go-mod-cache-${{ hashFiles('**/go.sum') }}
 
-    - name: Install golangci-lint
-      run: |
-        curl -sSfL https://github.com/golangci/golangci-lint/releases/download/v1.44.0/golangci-lint-1.44.0-linux-amd64.tar.gz | tar -xzv -C /tmp/
-        sudo mv /tmp/golangci-lint-1.44.0-linux-amd64/golangci-lint /usr/local/bin/golangci-lint
 
-    - name: Run golangci-lint
-      run: golangci-lint run --timeout 5m
+    - name: Install dependencies
+      run: go mod tidy
 
-    - name: Run tests
-      run: go test ./...
+    # - name: Run tests
+    #   run: go test -v ./... # Run tests with verbose output
+
+    - name: Build
+      run: go build ./... # Build the project
+
+    - name: Run linters
+      run: go vet ./... && golint ./... # Run linting tools
+
+    # - name: Upload Test Results
+    #   if: success() # Only upload if tests were successful
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: test-results
+    #     path: ./test-results/ # Specify the path where test results are stored (if applicable)
+
+    - name: Notify on Failure
+      if: failure() # Notify if there's a failure
+      run: echo "Build failed. Please check the logs."

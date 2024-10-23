@@ -1,3 +1,6 @@
+/* 	(c) 2020-2024 by ROSE_SWE, Ralph Roth
+	https://github.com/roseswe/rupdater2
+ */
 //go:generate goversioninfo -icon=main.ico -manifest=goversioninfo.exe.manifest
 package main
 
@@ -14,7 +17,8 @@ import (
 )
 
 // Program version
-const version = "$Id: main.go,v 1.3 2024/10/10 13:20:50 ralph Exp $"
+const version = "$Id: main.go,v 1.7 2024/10/23 09:49:27 ralph Exp $"
+
 // var BuildDate string // This will be populated during the build
 
 // downloadFile downloads a file from the given URL and saves it as the given file name
@@ -62,7 +66,6 @@ func calculateMD5(filePath string) (string, error) {
 	return hex.EncodeToString(hash.Sum(nil)), nil
 }
 
-
 // displayHelp prints the usage instructions for the program
 func displayHelp() {
 	helpText := `
@@ -74,6 +77,8 @@ Options:
   -k, --keep          Keep files that did not match the MD5 hash.
   -h, --help, -?      Show help message.
   -V, --version       Show program version.
+  -u, --url=URL       Specify the base URL. If not provided, default URL
+                      will be used.
 
 Description:
   This program downloads files from the ROSE SWE download page listed in the
@@ -97,10 +102,13 @@ Example:
 
   Downloads files, keeps mismatched files, and deletes the md5sums.md5
   file when done.
+
+  cfg2html mirroring:  rupdater  --url https://www.cfg2html.com/
+
+  Mirrors instead the cfg2html website
 `
 	fmt.Println(strings.TrimSpace(helpText))
 }
-
 
 // preprocessArgs maps long flags to short equivalents
 func preprocessArgs() {
@@ -110,6 +118,7 @@ func preprocessArgs() {
 		"--version": "-V",
 		"--delete":  "-d",
 		"--keep":    "-k",
+		"--url":     "-u",
 	}
 
 	newArgs := []string{os.Args[0]}
@@ -126,7 +135,9 @@ func preprocessArgs() {
 func main() {
 	// Greeting line
 	fmt.Println("---=[ rupdater by ROSE SWE, (c) 2024 by Ralph Roth ]=------------------")
-	fmt.Println("Automatic update program to always get the newest files from ROSE SWE!\n")
+	// ./main.go:129:2: fmt.Println arg list ends with redundant newline
+	fmt.Println("Automatic update program to always get the newest files from ROSE SWE!")
+	fmt.Println("")
 
 	// Preprocess args to handle long flags
 	preprocessArgs()
@@ -137,6 +148,9 @@ func main() {
 	showHelp := flag.Bool("h", false, "Show a detailed help message.")
 	showVersion := flag.Bool("V", false, "Show the program version.")
 	helpAlternative := flag.Bool("?", false, "Show a detailed help message.")
+	// Base URL and downloaded file (hardcoded)
+	baseURL := "http://rose-swe.bplaced.net/dl/"
+	flag.StringVar(&baseURL, "u", baseURL, "Specify an other base URL")
 	flag.Parse()
 
 	// Handle version display
@@ -152,8 +166,11 @@ func main() {
 		os.Exit(0)
 	}
 
-	// Base URL and downloaded file (hardcoded)
-	baseURL := "http://rose-swe.bplaced.net/dl/"
+	// Ensure baseURL ends with "/"
+	if !strings.HasSuffix(baseURL, "/") {
+		baseURL += "/"
+	}
+	fmt.Println("[Info] Mirroring now website:", baseURL)
 	downloadedFile := "md5sums.md5"
 	md5URL := baseURL + downloadedFile
 

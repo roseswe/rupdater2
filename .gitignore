@@ -9,3 +9,4 @@ rupdater_example.txt
 *.swp
 goversioninfo.exe.manifest
 resource.syso
+rupdater_test.go

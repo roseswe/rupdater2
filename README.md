@@ -1,5 +1,5 @@
 
-# Rupdater2
+# Rupdater2 (ROSE SWE website updater program version 2)
 
 [rupdater2](https://github.com/roseswe/rupdater2) is a simple Go-based program that downloads files from a remote server (the ROSE SWE download page), verifies their MD5 hashes, and re-downloads files with mismatches. Optionally, it can delete files that do not match the expected MD5 hash.
 
@@ -10,7 +10,7 @@ This is the successor of rupdater, a bash script https://github.com/roseswe/rupd
 Currently, there is no integrated automated update mechanism for the programs from **ROSE SWE**. To address this, we provide a shell script, `rupdater`, to facilitate updates from the following sites:
 
 - [rose.rult.at](http://rose.rult.at/)
-- [cfg2html.com](http://www.cfg2html.com)   - needs source code (URL) modification
+- [cfg2html.com](http://www.cfg2html.com)
 
 As rupdater (v1, shell script) has some shortcomings (Issue #2) we decided to program a complete new version in Go(lang) -> [rupdater2](https://github.com/roseswe/rupdater)
 
@@ -74,6 +74,7 @@ Alternatively, if you don't have `make`, you can manually cross-compile the proj
 - `-k`, `--keep`          Keep files that did not match the MD5 hash.
 - `-h`, `--help`, `-?`    Show the (detailed) help message.
 - `-V`, `--version`       Show the program version.
+- `-u`, `--url=URL`       Specify the base URL. If not provided, default URL will be used.
 
 ### Example Usage
 
@@ -130,6 +131,13 @@ Alternatively, if you don't have `make`, you can manually cross-compile the proj
    file when done.
 
    ```
+4. **Downloading/Mirroring www.cfg2html.com**
+
+   All websites that have been created using ROSE_SWE's dir2html package can be mirrored:
+
+   ```bash
+   ./rupdater --url https://www.cfg2html.com
+   ```
 
 ## Exit Codes
 
@@ -152,4 +160,4 @@ If you find any bugs or have feature requests, please open an issue on the GitHu
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-// END // $Id: README.md,v 1.7 2024/10/10 19:41:35 ralph Exp $
+// END // $Id: README.md,v 1.8 2024/10/23 09:49:26 ralph Exp $
