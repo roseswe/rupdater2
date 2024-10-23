@@ -2,16 +2,19 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+1.0.7 (2024-10-23)
+------------------
 
 Changes
 ~~~~~~~
+- Updated Changelog (by Makefile) 20241011-11:01. [roseswe]
 - Tested with other go-lang versions, small enhancements. [roseswe]
 - Updated Changelog (by Makefile) 20241007-08:43. [roseswe]
 
 Other
 ~~~~~
+- Add: --url handling. [roseswe]
+- Add:  --url handling.  Improved ReadME. [roseswe]
 - Add: Small enhancements around build process. [roseswe]
 - Add: Added example, included into dist build. [roseswe]
 

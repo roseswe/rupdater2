@@ -1,5 +1,5 @@
 # Define the target name and Go source files
-# $Id: Makefile,v 1.10 2024/10/18 06:17:50 ralph Exp $
+# $Id: Makefile,v 1.11 2024/10/23 15:15:46 ralph Exp $
 
 TARGET = rupdater
 GOFILES = main.go
@@ -9,8 +9,8 @@ BUILD_DIR = build
 WINDOWS_ARCH = windows/386
 LINUX_ARCH = linux/386
 
-# Global Go flags to remove BuildID
-GOFLAGS := -ldflags "-buildid="
+# Global Go flags to remove BuildID, omits the DWARF symbol table, removes the symbol table and debug information.
+GOFLAGS := -ldflags "-buildid= -w -s"
 
 # Define a variable to hold the date
 current_date_mon := $(shell date +%Y%m)

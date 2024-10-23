@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// Program version
-const version = "$Id: main.go,v 1.7 2024/10/23 09:49:27 ralph Exp $"
+// Program version - see what(1) or mywhat
+const version = "@(#)$Id: main.go,v 1.7 2024/10/23 09:49:27 ralph Exp $"
 
 // var BuildDate string // This will be populated during the build
 
