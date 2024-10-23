@@ -1,5 +1,5 @@
 # Define the target name and Go source files
-# $Id: Makefile,v 1.8 2024/10/10 13:20:50 ralph Exp $
+# $Id: Makefile,v 1.10 2024/10/18 06:17:50 ralph Exp $
 
 TARGET = rupdater
 GOFILES = main.go
@@ -23,7 +23,7 @@ all: build-windows build-linux
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-# Windows (32-bit) build
+# Windows (32+64-bit) build
 build-windows: $(BUILD_DIR)
 	goversioninfo -icon main.ico -o resource.syso
 	GOOS=windows GOARCH=386 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET).exe $(GOFILES)
@@ -33,11 +33,14 @@ build-windows: $(BUILD_DIR)
 	strip $(BUILD_DIR)/$(TARGET)64.exe
 	@echo "[!] Windows 64-bit executable created: $(BUILD_DIR)/$(TARGET)64.exe"
 
-# Linux (32-bit) build
+# Linux (32+64-bit) build
 build-linux: $(BUILD_DIR)
 	GOOS=linux GOARCH=386 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET) $(GOFILES)
 	strip $(BUILD_DIR)/$(TARGET)
 	@echo "[!] Linux 32-bit executable created: $(BUILD_DIR)/$(TARGET)"
+	GOOS=linux GOARCH=amd64 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET)64 $(GOFILES)
+	strip $(BUILD_DIR)/$(TARGET)64
+	@echo "[!] Linux 32-bit executable created: $(BUILD_DIR)/$(TARGET)64"
 
 # Clean up the build directory
 clean:
@@ -58,3 +61,13 @@ changelog:
 	gitchangelog > ChangeLog.txt
 	git commit -a -s -m "chg: Updated Changelog (by Makefile) $(current_date_full)"
 	cat ChangeLog.txt
+
+# Help message
+help:
+	@echo "Makefile commands:"
+	@echo "  make build    - Build the binary"
+	#@echo "  make test     - Run tests"
+	@echo "  make clean    - Clean up build artifacts"
+	@echo "  make install   - Install the binary"
+	@echo "  make run      - Run the application"
+	@echo "  make help     - Show this help message"
