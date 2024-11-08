@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Updated Changelog (by Makefile) 20241023-17:19. [roseswe]
+
+
 1.0.7 (2024-10-23)
 ------------------
 

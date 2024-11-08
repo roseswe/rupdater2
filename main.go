@@ -1,6 +1,6 @@
 /* 	(c) 2020-2024 by ROSE_SWE, Ralph Roth
-	https://github.com/roseswe/rupdater2
- */
+https://github.com/roseswe/rupdater2
+*/
 //go:generate goversioninfo -icon=main.ico -manifest=goversioninfo.exe.manifest
 package main
 
@@ -17,7 +17,7 @@ import (
 )
 
 // Program version - see what(1) or mywhat
-const version = "@(#)$Id: main.go,v 1.7 2024/10/23 09:49:27 ralph Exp $"
+const version = "@(#)$Id: main.go,v 1.9 2024/11/07 21:39:59 ralph Exp $"
 
 // var BuildDate string // This will be populated during the build
 
@@ -77,8 +77,8 @@ Options:
   -k, --keep          Keep files that did not match the MD5 hash.
   -h, --help, -?      Show help message.
   -V, --version       Show program version.
-  -u, --url=URL       Specify the base URL. If not provided, default URL
-                      will be used.
+  -u, --url URL       Specify the base URL. If not provided, the
+                      default URL will be used.
 
 Description:
   This program downloads files from the ROSE SWE download page listed in the

@@ -22,7 +22,14 @@ rupdater2 supports beside Linux also Windows environments, which the first versi
 - Verifies MD5 hashes of the downloaded files.
 - Re-downloads files with mismatched MD5 hashes.
 - Optionally deletes the file md5sums.md5 after processing.
-- Supports cross-compilation for both Windows and Linux.
+- Supports cross-compilation for both Windows, WSL, MacOS and Linux. Other platforms on request!
+
+## Special note about the macOS (Darwin) binary provided
+
+The Darwin64 binary included in this package **is not signed** by us (ROSE SWE). Due to macOS security features, you may encounter a warning when trying to run it. However, if you trust this application and want to run it, you can do so. macOS Gatekeeper is a security feature designed to ensure that only trusted software runs on your Mac, enhancing the overall safety of the operating system. When you attempt to open an application that is not signed, like this Darwin64 binary that lacks the necessary digital signature, Gatekeeper triggers a warning. This is a precautionary measure to protect your system from potentially harmful software. If you trust the source of the unsigned application and wish to proceed, you can bypass Gatekeeper's restrictions.
+
+   - Go to `System Preferences > Security & Privacy`.
+   - In the "General" tab, you should see a message about the blocked application. Click on "Open Anyway."
 
 ## Prerequisites for rebuilding
 
@@ -48,9 +55,11 @@ make
 ```
 
 This will generate the following executables in the `build` directory:
-- `build/rupdater.exe` (32-bit Windows executable)
-- `build/rupdater64.exe` (64-bit Windows executable)
-- `build/rupdater` (32-bit Linux executable, static linked, should run on all Linux platforms that provide a 32bit runtime)
+- `build/rupdater32.exe` 32-bit Windows executable, PE32 executable (console) Intel 80386
+- `build/rupdater64.exe` 64-bit Windows executable, PE32+ executable (console) x86-64
+- `build/rupdater_i586`  32-bit Linux executable, static linked, should run on all Linux platforms that provide a 32bit runtime
+- `build/rupdater_amd64` 64-bit Linux exetutable,  ELF 64-bit LSB executable, x86-64, version 1 (SYSV)
+- `build/rupdater-darwin64` macOS: Mach-O 64-bit x86_64 executable, flags:<|DYLDLINK|PIE>
 
 ### Manual Build (without Makefile)
 
@@ -148,6 +157,10 @@ Alternatively, if you don't have `make`, you can manually cross-compile the proj
 - `4`: File Deletion Error - Error deleting the `md5sums.md5` file after processing.
 - `5`: MD5 Mismatch Found - MD5 mismatches were detected, and files were deleted (if applicable).
 
+## WSL
+
+Both rupdater2 Linux binaries tested successfully under Windows Subsystem Linux (WSL)
+
 ## Contributing
 
 Feel free to fork the repository and submit pull requests. If you have any suggestions or bug reports, open an issue.
@@ -160,4 +173,4 @@ If you find any bugs or have feature requests, please open an issue on the GitHu
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-// END // $Id: README.md,v 1.8 2024/10/23 09:49:26 ralph Exp $
+// END // $Id: README.md,v 1.9 2024/11/07 21:39:59 ralph Exp $
