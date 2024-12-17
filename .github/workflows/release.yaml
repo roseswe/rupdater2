@@ -1,5 +1,6 @@
 ## Workflow: github/workflows/release.yaml -- 03.12.2024 -- Ralph Roth
-##
+
+
 name: goreleaser
 
 on:

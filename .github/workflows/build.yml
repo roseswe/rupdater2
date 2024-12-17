@@ -1,5 +1,7 @@
 name: Build and Release
-# Workflow: .github/workflows/build.yml  -- 03.10.2024 -- Ralph Roth
+## Workflow: .github/workflows/build.yml  -- 03.10.2024 -- Ralph Roth
+## See also: https://github.com/actions/runner-images/issues/10636 / Ubuntu-latest workflows will use Ubuntu-24.04 image
+## https://github.com/actions/runner-images/blob/main/README.md#available-images
 
 on:
   push:
@@ -18,7 +20,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: '1.16'  # Set Go version
+        go-version: '1.23'  # Set Go version // same as we have
 
     - name: Build for Windows (32-bit)
       run: |
@@ -32,7 +34,8 @@ jobs:
         # Unable to resolve action gh actions/create-release, repository not found. Unable to resolve action gh actions/upload-release-asset, repository not found
     - name: Create release and upload artifacts
       id: release
-      uses: gh actions/create-release@v1
+      #uses: gh actions/create-release@v1
+      uses: actions/create-release@v1
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
@@ -41,7 +44,8 @@ jobs:
         prerelease: false
 
     - name: Upload Windows binary
-      uses: gh actions/upload-release-asset@v1
+      # uses: gh_actions/upload-release-asset@v1
+      uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.release.outputs.upload_url }}
         asset_path: build/rupdater.exe
@@ -49,7 +53,7 @@ jobs:
         asset_content_type: application/octet-stream
 
     - name: Upload Linux binary
-      uses: gh actions/upload-release-asset@v1
+      uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.release.outputs.upload_url }}
         asset_path: build/rupdater
@@ -57,7 +61,7 @@ jobs:
         asset_content_type: application/octet-stream
 
     - name: Upload README.md
-      uses: gh actions/upload-release-asset@v1
+      uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.release.outputs.upload_url }}
         asset_path: README.md

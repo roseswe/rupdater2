@@ -67,7 +67,7 @@ dist: clean all
 
 changelog:
 	gitchangelog > ChangeLog.txt
-	git commit -a -s -m "chg: Updated Changelog (by Makefile) $(current_date_full)"
+	git commit -a -s -m "chg: Updated the Changelog (by Makefile) $(current_date_full)"
 	cat ChangeLog.txt
 
 # Help message
