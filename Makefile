@@ -1,9 +1,10 @@
 # Define the target name and Go source files
-# $Id: Makefile,v 1.14 2024/11/07 21:39:59 ralph Exp $
+# $Id: Makefile,v 1.15 2024/12/02 14:57:15 ralph Exp $
 
 TARGET = rupdater
 GOFILES = main.go
 BUILD_DIR = build
+VERSION=$(shell git describe --tags --abbrev=0 | sed 's/v//g')
 
 # Define cross-compilation settings for Windows and Linux (32-bit)
 WINDOWS_ARCH = windows/386
