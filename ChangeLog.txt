@@ -2,6 +2,30 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Makefile/goversioninfo for Windows. [roseswe]
+
+Fix
+~~~
+- ? gh workflow issues.... [roseswe]
+
+
+1.0.10 (2024-12-17)
+-------------------
+
+Changes
+~~~~~~~
+- Updated Changelog (by Makefile) 20241108-12:51. [roseswe]
+
+Other
+~~~~~
+- Add: release workflow. [roseswe]
+
+
 1.0.9 (2024-11-08)
 ------------------
 
