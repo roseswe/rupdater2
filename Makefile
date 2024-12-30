@@ -1,5 +1,5 @@
 # Define the target name and Go source files
-# $Id: Makefile,v 1.15 2024/12/02 14:57:15 ralph Exp $
+# $Id: Makefile,v 1.16 2024/12/18 09:11:36 ralph Exp $
 
 TARGET = rupdater
 GOFILES = main.go
@@ -31,7 +31,7 @@ built-darwin:
 
 # Windows (32+64-bit) build
 build-windows: $(BUILD_DIR)
-	goversioninfo -icon main.ico -o resource.syso
+	goversioninfo -icon main.ico -o resource.syso versioninfo.json
 	GOOS=windows GOARCH=386 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET)32.exe $(GOFILES)
 	strip $(BUILD_DIR)/$(TARGET)32.exe
 	@echo "[!] Windows 32-bit executable created: $(BUILD_DIR)/$(TARGET)32.exe"
@@ -51,6 +51,7 @@ build-linux: $(BUILD_DIR)
 # Clean up the build directory
 clean:
 	rm -rf $(BUILD_DIR)
+	go mod tidy
 	@echo "[!] Build directory cleaned."
 
 # To force re-build
@@ -74,8 +75,8 @@ changelog:
 help:
 	@echo "Makefile commands:"
 	@echo "  make build    - Build the binary"
-	#@echo "  make test     - Run tests"
+	@echo "  make dist     - Build and make the ZIP for distribution"
 	@echo "  make clean    - Clean up build artifacts"
-	@echo "  make install   - Install the binary"
+	@echo "  make install  - Install the binary"
 	@echo "  make run      - Run the application"
 	@echo "  make help     - Show this help message"
