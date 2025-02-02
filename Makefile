@@ -1,5 +1,5 @@
 # Define the target name and Go source files
-# $Id: Makefile,v 1.16 2024/12/18 09:11:36 ralph Exp $
+# $Id: Makefile,v 1.19 2025/01/31 06:47:14 ralph Exp $
 
 TARGET = rupdater
 GOFILES = main.go
@@ -11,7 +11,8 @@ WINDOWS_ARCH = windows/386
 LINUX_ARCH = linux/386
 
 # Global Go flags to remove BuildID, omits the DWARF symbol table, removes the symbol table and debug information.
-GOFLAGS := -ldflags "-buildid= -w -s"
+GOFLAGS := -ldflags "-buildid= -w -s "
+##  -buildmode=pie
 
 # Define a variable to hold the date
 current_date_mon := $(shell date +%Y%m)
@@ -41,18 +42,19 @@ build-windows: $(BUILD_DIR)
 
 # Linux (32+64-bit) build
 build-linux: $(BUILD_DIR)
-	GOOS=linux GOARCH=386 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET)_i586 $(GOFILES)
-	strip $(BUILD_DIR)/$(TARGET)_i586
-	@echo "[!] Linux 32-bit executable created: $(BUILD_DIR)/$(TARGET)_i586"
+	GOOS=linux GOARCH=386 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET)_i686 $(GOFILES)
+	strip $(BUILD_DIR)/$(TARGET)_i686
+	@echo "[!] Linux 32-bit executable created: $(BUILD_DIR)/$(TARGET)_i686"
 	GOOS=linux GOARCH=amd64 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET)_amd64 $(GOFILES)
 	strip $(BUILD_DIR)/$(TARGET)_amd64
 	@echo "[!] Linux 32-bit executable created: $(BUILD_DIR)/$(TARGET)_amd64"
 
-# Clean up the build directory
+# Clean up the build directory, cleanup misc. stuff
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf $(BUILD_DIR)  rupdater2_*.zip
+	go telemetry off
 	go mod tidy
-	@echo "[!] Build directory cleaned."
+	@echo "[!] Build directory cleaned. Mod tidied."
 
 # To force re-build
 rebuild: clean all

@@ -17,38 +17,58 @@ import (
 )
 
 // Program version - see what(1) or mywhat
-const version = "@(#)$Id: main.go,v 1.9 2024/11/07 21:39:59 ralph Exp $"
+const version = "@(#)$Id: main.go,v 1.10 2025/01/31 06:47:15 ralph Exp $"
 
 // var BuildDate string // This will be populated during the build
-
 // downloadFile downloads a file from the given URL and saves it as the given file name
 func downloadFile(url, fileName string) error {
-	// Get the file from the URL
-	resp, err := http.Get(url)
-	if err != nil {
-		return fmt.Errorf("[!] ERROR: Failed to download file: %v", err)
-	}
-	defer resp.Body.Close()
+    // Get the file from the URL
+    resp, err := http.Get(url)
+    if err != nil {
+        return fmt.Errorf("[!] ERROR: Failed to download file: %v", err)
+    }
+    defer resp.Body.Close()
 
-	// Check HTTP status code
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("[!] ERROR: Failed to download file: HTTP status %s", resp.Status)
-	}
+    // Check HTTP status code
+    if resp.StatusCode != http.StatusOK {
+        return fmt.Errorf("[!] ERROR: Failed to download file: HTTP status %s", resp.Status)
+    }
 
-	// Create a local file to store the downloaded content
-	out, err := os.Create(fileName)
-	if err != nil {
-		return fmt.Errorf("[!] ERROR: Failed to create file: %v", err)
-	}
-	defer out.Close()
+    // Create a local file to store the downloaded content
+    out, err := os.Create(fileName)
+    if err != nil {
+        return fmt.Errorf("[!] ERROR: Failed to create file: %v", err)
+    }
+    defer out.Close()
 
-	// Write the body to the local file
-	_, err = io.Copy(out, resp.Body)
-	if err != nil {
-		return fmt.Errorf("[!] ERROR: Failed to write to file: %v", err)
-	}
-	return nil
-}
+    // Create a buffer to read the response body in chunks
+    buf := make([]byte, 1024*1024*2) // 2 MB buffer
+    var totalBytes int64
+
+    for {
+        // Read a chunk
+        n, err := resp.Body.Read(buf)
+        if n > 0 {
+            // Write the chunk to the file
+            if _, err := out.Write(buf[:n]); err != nil {
+                return fmt.Errorf("[!] ERROR: Failed to write to file: %v", err)
+            }
+            totalBytes += int64(n)
+            // Print a dot for every MB downloaded
+            if totalBytes%(1024*1024*2) == 0 {
+                fmt.Print(".")
+            }
+        }
+        if err != nil {
+            if err == io.EOF {
+                break
+            }
+            return fmt.Errorf("[!] ERROR: Failed to read response body: %v", err)
+        }
+    }
+    // fmt.Println() // Print a newline after the download is complete
+    return nil
+} // downloadFile
 
 // calculateMD5 calculates the MD5 hash of a file
 func calculateMD5(filePath string) (string, error) {
@@ -64,7 +84,7 @@ func calculateMD5(filePath string) (string, error) {
 	}
 
 	return hex.EncodeToString(hash.Sum(nil)), nil
-}
+} // calculateMD5
 
 // displayHelp prints the usage instructions for the program
 func displayHelp() {
@@ -134,7 +154,7 @@ func preprocessArgs() {
 
 func main() {
 	// Greeting line
-	fmt.Println("---=[ rupdater by ROSE SWE, (c) 2024 by Ralph Roth ]=------------------")
+	fmt.Println("---=[ rupdater by ROSE SWE, (c) 2024-2025 by Ralph Roth ]=------------------")
 	// ./main.go:129:2: fmt.Println arg list ends with redundant newline
 	fmt.Println("Automatic update program to always get the newest files from ROSE SWE!")
 	fmt.Println("")
@@ -208,14 +228,14 @@ func main() {
 		if _, err := os.Stat(fileName); os.IsNotExist(err) {
 			// File does not exist locally, download it from the base URL
 			fileDownloadURL := baseURL + fileName
-			fmt.Printf("[New!] %s downloading... ", fileName)
+			fmt.Printf("[New!] %s downloading...", fileName)
 
 			err = downloadFile(fileDownloadURL, fileName)
 			if err != nil {
 				fmt.Printf("[!] Error downloading file %s: %v\n", fileName, err)
 				continue
 			} else {
-				fmt.Printf("OK!\n")
+				fmt.Printf(" OK!\n")
 			}
 			//fmt.Printf("[!] File %s downloaded successfully.\n", fileName)  // debugging....
 		}
@@ -233,13 +253,13 @@ func main() {
 			md5MismatchFound = true
 
 			// Attempt to download the file again
-			fmt.Printf("[!] Attempting to re-download file %s to resolve MD5 mismatch...\n", fileName)
+			fmt.Printf("[!] Attempting to re-download file %s to resolve MD5 mismatch...", fileName)
 			err = downloadFile(baseURL+fileName, fileName)
 			if err != nil {
-				fmt.Printf("[!] Error re-downloading file %s: %v\n", fileName, err)
+				fmt.Printf("\n[!] Error re-downloading file %s: %v\n", fileName, err)
 				continue
 			}
-			fmt.Printf("[!] File %s re-downloaded successfully.\n", fileName)
+			fmt.Printf("\n[!] File %s re-downloaded successfully.\n", fileName)
 
 			// Recalculate MD5 after re-downloading
 			calculatedMD5, err = calculateMD5(fileName)
