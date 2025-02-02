@@ -7,11 +7,16 @@ Changelog
 
 Changes
 ~~~~~~~
+- Updated the Changelog (by Makefile) 20241230-10:39. [roseswe]
 - Makefile/goversioninfo for Windows. [roseswe]
 
 Fix
 ~~~
 - ? gh workflow issues.... [roseswe]
+
+Other
+~~~~~
+- Add: prints now a progress dot every 2MB download. [roseswe]
 
 
 1.0.10 (2024-12-17)
