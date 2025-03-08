@@ -2,11 +2,12 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+1.12 (2025-03-08)
+-----------------
 
 Changes
 ~~~~~~~
+- Updated the Changelog (by Makefile) 20250202-11:20. [roseswe]
 - Updated the Changelog (by Makefile) 20241230-10:39. [roseswe]
 - Makefile/goversioninfo for Windows. [roseswe]
 
@@ -16,6 +17,8 @@ Fix
 
 Other
 ~~~~~
+- Add:/chg: Enhance download functionality with improved error handling
+  and download rate reporting. [roseswe]
 - Add: prints now a progress dot every 2MB download. [roseswe]
 
 
