@@ -157,6 +157,19 @@ Alternatively, if you don't have `make`, you can manually cross-compile the proj
 - `4`: File Deletion Error - Error deleting the `md5sums.md5` file after processing.
 - `5`: MD5 Mismatch Found - MD5 mismatches were detected, and files were deleted (if applicable).
 
+## Error Messages running into so far
+
+Or successfully handled by rupdater...
+
+* [New!] rms_3.9.2.zip downloading....[!] Error downloading file rms_3.9.2.zip: [!] ERROR: Failed to read response body: unexpected EOF
+
+````
+[!] WARNING1: MD5 mismatch for file rms_3.9.2.zip. Expected: [e02a2e706bf61bd55c2bf54a9ab0b04c], Got: [74c95c5db6fc83433fff5c7f501b39e2]
+[!] Attempting to re-download file rms_3.9.2.zip to resolve MD5 mismatch........
+[!] File rms_3.9.2.zip re-downloaded successfully.
+[!] File rms_3.9.2.zip is now valid after re-downloading (MD5 matches)
+````
+
 ## WSL
 
 Both rupdater2 Linux binaries tested successfully under Windows Subsystem Linux (WSL)
@@ -173,4 +186,4 @@ If you find any bugs or have feature requests, please open an issue on the GitHu
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-// END // $Id: README.md,v 1.10 2024/11/08 10:50:03 ralph Exp $
+// END // $Id: README.md,v 1.11 2025/02/21 18:54:09 ralph Exp $

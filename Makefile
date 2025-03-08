@@ -1,5 +1,5 @@
 # Define the target name and Go source files
-# $Id: Makefile,v 1.19 2025/01/31 06:47:14 ralph Exp $
+# $Id: Makefile,v 1.21 2025/02/21 18:54:09 ralph Exp $
 
 TARGET = rupdater
 GOFILES = main.go
@@ -62,6 +62,8 @@ rebuild: clean all
 
 dist: clean all
 	file $(BUILD_DIR)/$(TARGET)* > files.txt
+	echo "" >> files.txt
+	echo "## GLIBC requirements" >> files.txt
 	ldd -v $(BUILD_DIR)/$(TARGET)* >> files.txt || true
 	upx --best --lzma --force-macos $(BUILD_DIR)/$(TARGET)*
 	pandoc README.md -t HTML -o readme.html
@@ -75,10 +77,14 @@ changelog:
 
 # Help message
 help:
-	@echo "Makefile commands:"
-	@echo "  make build    - Build the binary"
-	@echo "  make dist     - Build and make the ZIP for distribution"
-	@echo "  make clean    - Clean up build artifacts"
-	@echo "  make install  - Install the binary"
-	@echo "  make run      - Run the application"
-	@echo "  make help     - Show this help message"
+	@echo "|== Makefile commands =="
+	@echo " 	 make build    			- Build the binary"
+	@echo " 	 make dist     			- Build and make the ZIP for distribution"
+	@echo " 	 make clean    			- Clean up build artifacts"
+	@echo " 	 make rebuild  			- Clean and rebuild the project"
+	@echo " 	 make changelog			- Generate a changelog from git commits"
+	@echo " 	 make all      			- Build for all platforms"
+	@echo " 	 make build-windows - Build for Windows"
+	@echo " 	 make build-linux   - Build for Linux"
+	@echo " 	 make build-darwin  - Build for MacOS"
+	@echo " 	 make help          - Show this help message"

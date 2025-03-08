@@ -1,4 +1,4 @@
-/* 	(c) 2020-2024 by ROSE_SWE, Ralph Roth
+/* 	(c) 2020-2025 by ROSE_SWE, Ralph Roth
 https://github.com/roseswe/rupdater2
 */
 //go:generate goversioninfo -icon=main.ico -manifest=goversioninfo.exe.manifest
@@ -14,60 +14,84 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 // Program version - see what(1) or mywhat
-const version = "@(#)$Id: main.go,v 1.10 2025/01/31 06:47:15 ralph Exp $"
+const version = "@(#)$Id: main.go,v 1.12 2025/02/21 21:00:45 ralph Exp $"
 
 // var BuildDate string // This will be populated during the build
 // downloadFile downloads a file from the given URL and saves it as the given file name
 func downloadFile(url, fileName string) error {
-    // Get the file from the URL
-    resp, err := http.Get(url)
-    if err != nil {
-        return fmt.Errorf("[!] ERROR: Failed to download file: %v", err)
-    }
-    defer resp.Body.Close()
 
-    // Check HTTP status code
-    if resp.StatusCode != http.StatusOK {
-        return fmt.Errorf("[!] ERROR: Failed to download file: HTTP status %s", resp.Status)
-    }
+	// Start the timer. New Start
+	startTime := time.Now()
 
-    // Create a local file to store the downloaded content
-    out, err := os.Create(fileName)
-    if err != nil {
-        return fmt.Errorf("[!] ERROR: Failed to create file: %v", err)
-    }
-    defer out.Close()
+	// Create an HTTP client with a longer timeout.
+	client := &http.Client{
+		Timeout: 15 * time.Minute, // Adjust timeout as needed. RMS = 110MB@500MBit/s
+	}
 
-    // Create a buffer to read the response body in chunks
-    buf := make([]byte, 1024*1024*2) // 2 MB buffer
-    var totalBytes int64
+	// Get the file from the URL using the custom client.
+	resp, err := client.Get(url)
+	if err != nil {
+		return fmt.Errorf("[!] ERROR: Failed to download file: %v", err)
+	}
+	defer resp.Body.Close()
 
-    for {
-        // Read a chunk
-        n, err := resp.Body.Read(buf)
-        if n > 0 {
-            // Write the chunk to the file
-            if _, err := out.Write(buf[:n]); err != nil {
-                return fmt.Errorf("[!] ERROR: Failed to write to file: %v", err)
-            }
-            totalBytes += int64(n)
-            // Print a dot for every MB downloaded
-            if totalBytes%(1024*1024*2) == 0 {
-                fmt.Print(".")
-            }
-        }
-        if err != nil {
-            if err == io.EOF {
-                break
-            }
-            return fmt.Errorf("[!] ERROR: Failed to read response body: %v", err)
-        }
-    }
-    // fmt.Println() // Print a newline after the download is complete
-    return nil
+	// Check HTTP status code
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("[!] ERROR: Failed to download file: HTTP status %s", resp.Status)
+	}
+
+	// Create a local file to store the downloaded content
+	out, err := os.Create(fileName)
+	if err != nil {
+		return fmt.Errorf("[!] ERROR: Failed to create file: %v", err)
+	}
+	defer out.Close()
+
+	// Start the timer. Old Start
+	// startTime := time.Now()
+
+	// Create a buffer to read the response body in chunks
+	buf := make([]byte, 1024*1024*2) // 2 MB buffer
+	var totalBytes int64
+
+	for {
+		// Read a chunk
+		n, err := resp.Body.Read(buf)
+		if n > 0 {
+			// Write the chunk to the file
+			if _, err := out.Write(buf[:n]); err != nil {
+				return fmt.Errorf("[!] ERROR: Failed to write to file: %v", err)
+			}
+			totalBytes += int64(n)
+			// Print a dot for every MB downloaded
+			if totalBytes%(1024*1024*2) == 0 {
+				fmt.Print(".")
+			}
+		}
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			return fmt.Errorf("[!] ERROR: Failed to read response body: %v", err)
+		}
+	}
+	// Calculate and print the download rate.
+	elapsed := time.Since(startTime)
+	mins := int(elapsed.Minutes())
+	secs := elapsed.Seconds() - float64(mins)*60
+	downloadRate := float64(totalBytes) / elapsed.Seconds() / (1024 * 1024) // MB/s
+
+	if (mins == 0 && secs < 3) || (mins > 10) {
+		fmt.Printf(" -> %v (%.2f MB/s) %d bytes", elapsed, downloadRate, totalBytes)  // 123us, 10min23s 1h23m || 65.98912ms (0.01 MB/s) 970 bytes OK!
+	} else {
+		fmt.Printf(" -> %dm%.2fs (%.2f MB/s) %d bytes", mins, secs, downloadRate, totalBytes)
+	}
+
+	return nil
 } // downloadFile
 
 // calculateMD5 calculates the MD5 hash of a file
@@ -190,7 +214,7 @@ func main() {
 	if !strings.HasSuffix(baseURL, "/") {
 		baseURL += "/"
 	}
-	fmt.Println("[Info] Mirroring now website:", baseURL)
+	fmt.Print("[Info] Mirroring now website:", baseURL)
 	downloadedFile := "md5sums.md5"
 	md5URL := baseURL + downloadedFile
 
@@ -199,6 +223,8 @@ func main() {
 	if err != nil {
 		fmt.Printf("[!] Error downloading file: %s (%v)\n", md5URL, err)
 		os.Exit(1) // Exit code 1: File download error
+	} else {
+		fmt.Println(" OK!")
 	}
 
 	// Step 2: Open and parse the md5sums.md5 file line by line
