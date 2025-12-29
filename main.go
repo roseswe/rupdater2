@@ -1,4 +1,4 @@
-/* 	(c) 2020-2025 by ROSE_SWE, Ralph Roth
+/* 	(c) 2020-2026 by ROSE_SWE, Ralph Roth
 https://github.com/roseswe/rupdater2
 */
 //go:generate goversioninfo -icon=main.ico -manifest=goversioninfo.exe.manifest
@@ -18,7 +18,7 @@ import (
 )
 
 // Program version - see what(1) or mywhat
-const version = "@(#)$Id: main.go,v 1.12 2025/02/21 21:00:45 ralph Exp $"
+const version = "@(#)$Id: main.go,v 1.13 2025/12/28 10:43:26 ralph Exp $"
 
 // var BuildDate string // This will be populated during the build
 // downloadFile downloads a file from the given URL and saves it as the given file name
@@ -178,7 +178,7 @@ func preprocessArgs() {
 
 func main() {
 	// Greeting line
-	fmt.Println("---=[ rupdater by ROSE SWE, (c) 2024-2025 by Ralph Roth ]=------------------")
+	fmt.Println("---=[ rupdater by ROSE SWE, (c) 2024-2026 by Ralph Roth ]=------------------")
 	// ./main.go:129:2: fmt.Println arg list ends with redundant newline
 	fmt.Println("Automatic update program to always get the newest files from ROSE SWE!")
 	fmt.Println("")

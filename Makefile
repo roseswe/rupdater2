@@ -42,10 +42,10 @@ build-windows: $(BUILD_DIR)
 
 # Linux (32+64-bit) build
 build-linux: $(BUILD_DIR)
-	GOOS=linux GOARCH=386 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET)_i686 $(GOFILES)
+	CGO_ENABLED=0 GOOS=linux GOARCH=386 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET)_i686 $(GOFILES)
 	strip $(BUILD_DIR)/$(TARGET)_i686
 	@echo "[!] Linux 32-bit executable created: $(BUILD_DIR)/$(TARGET)_i686"
-	GOOS=linux GOARCH=amd64 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET)_amd64 $(GOFILES)
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET)_amd64 $(GOFILES)
 	strip $(BUILD_DIR)/$(TARGET)_amd64
 	@echo "[!] Linux 32-bit executable created: $(BUILD_DIR)/$(TARGET)_amd64"
 

@@ -58,7 +58,7 @@ This will generate the following executables in the `build` directory:
 - `build/rupdater32.exe` 32-bit Windows executable, PE32 executable (console) Intel 80386
 - `build/rupdater64.exe` 64-bit Windows executable, PE32+ executable (console) x86-64
 - `build/rupdater_i586`  32-bit Linux executable, static linked, should run on all Linux platforms that provide a 32bit runtime
-- `build/rupdater_amd64` 64-bit Linux exetutable,  ELF 64-bit LSB executable, x86-64, version 1 (SYSV)
+- `build/rupdater_amd64` 64-bit Linux executable,  ELF 64-bit LSB executable, x86-64, version 1 (SYSV)
 - `build/rupdater-darwin64` macOS: Mach-O 64-bit x86_64 executable, flags:<|DYLDLINK|PIE>
 
 ### Manual Build (without Makefile)
@@ -186,4 +186,4 @@ If you find any bugs or have feature requests, please open an issue on the GitHu
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-// END // $Id: README.md,v 1.11 2025/02/21 18:54:09 ralph Exp $
+// END // $Id: README.md,v 1.12 2025/10/26 09:54:54 ralph Exp $
