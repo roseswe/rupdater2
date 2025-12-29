@@ -2,6 +2,19 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Updated the Changelog (by Makefile) 20250308-10:35. [roseswe]
+
+Fix
+~~~
+- Update copyright year and version in main.go; add CGO_ENABLED=0 for
+  Linux builds in Makefile. [roseswe]
+
+
 1.12 (2025-03-08)
 -----------------
 

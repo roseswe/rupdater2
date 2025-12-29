@@ -1,7 +1,7 @@
 /* 	(c) 2020-2026 by ROSE_SWE, Ralph Roth
 https://github.com/roseswe/rupdater2
 */
-//go:generate goversioninfo -icon=main.ico -manifest=goversioninfo.exe.manifest
+//go:generate goversioninfo -icon=main.ico -manifest=~/src/prj/windows/manifest.xml
 package main
 
 import (
