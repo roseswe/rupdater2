@@ -1,7 +1,7 @@
 /* 	(c) 2020-2026 by ROSE_SWE, Ralph Roth
 https://github.com/roseswe/rupdater2
 */
-//go:generate goversioninfo -icon=main.ico -manifest=~/src/prj/windows/manifest.xml
+//go:generate goversioninfo -icon=main.ico -manifest=manifest.xml versioninfo.json
 package main
 
 import (
@@ -18,7 +18,7 @@ import (
 )
 
 // Program version - see what(1) or mywhat
-const version = "@(#)$Id: main.go,v 1.13 2025/12/28 10:43:26 ralph Exp $"
+const version = "@(#)$Id: main.go,v 1.14 2025/12/29 10:53:13 ralph Exp $"
 
 // var BuildDate string // This will be populated during the build
 // downloadFile downloads a file from the given URL and saves it as the given file name

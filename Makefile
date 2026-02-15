@@ -1,5 +1,5 @@
 # Define the target name and Go source files
-# $Id: Makefile,v 1.21 2025/02/21 18:54:09 ralph Exp $
+# $Id: Makefile,v 1.22 2025/12/29 10:53:13 ralph Exp $
 
 TARGET = rupdater
 GOFILES = main.go
