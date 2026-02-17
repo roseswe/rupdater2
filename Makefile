@@ -1,5 +1,11 @@
 # Define the target name and Go source files
-# $Id: Makefile,v 1.22 2025/12/29 10:53:13 ralph Exp $
+# $Id: Makefile,v 1.23 2026/02/17 13:51:14 ralph Exp $
+
+# Variables
+TITLE = "ROSE SWE Updater - A tool to update ROSE Online client files from the official download page"
+INPUT = README.md
+OUTPUT = readme.html
+TEMPLATES = .tmp_header.html .tmp_footer.html
 
 TARGET = rupdater
 GOFILES = main.go
@@ -19,7 +25,9 @@ current_date_mon := $(shell date +%Y%m)
 current_date_full := $(shell date +%Y%m%d-%H:%M)
 
 # Default target
-all: build-windows build-linux built-darwin
+all: build-windows build-linux built-darwin html
+.PHONY: all html clean
+
 
 # Create the build directory if it does not exist
 $(BUILD_DIR):
@@ -51,7 +59,7 @@ build-linux: $(BUILD_DIR)
 
 # Clean up the build directory, cleanup misc. stuff
 clean:
-	rm -rf $(BUILD_DIR)  rupdater2_*.zip
+	rm -rf $(BUILD_DIR)  rupdater2_*.zip  $(OUTPUT)	ChangeLog.txt files.txt
 	go telemetry off
 	go mod tidy
 	@echo "[!] Build directory cleaned. Mod tidied."
@@ -60,13 +68,13 @@ clean:
 rebuild: clean all
 	@echo "[!] Rebuilding project..."
 
-dist: clean all
+dist: clean all html
 	file $(BUILD_DIR)/$(TARGET)* > files.txt
 	echo "" >> files.txt
 	echo "## GLIBC requirements" >> files.txt
 	ldd -v $(BUILD_DIR)/$(TARGET)* >> files.txt || true
 	upx --best --lzma --force-macos $(BUILD_DIR)/$(TARGET)*
-	pandoc README.md -t HTML -o readme.html
+	#pandoc README.md -t HTML -o readme.html
 	zip -j "rupdater2_$(current_date_mon).zip"  readme.html $(BUILD_DIR)/$(TARGET)* ChangeLog.txt rupdater_example.txt files.txt
 	describe "rupdater2_$(current_date_mon).zip" -desc="ROSE SWE updater release2 - downloads new software from the ROSE SWE download page"
 
@@ -88,3 +96,33 @@ help:
 	@echo " 	 make build-linux   - Build for Linux"
 	@echo " 	 make build-darwin  - Build for MacOS"
 	@echo " 	 make help          - Show this help message"
+	@echo "    make html          - Generate polished HTML from README.md"
+
+html:
+	@echo "Style: Polishing $(INPUT) into $(OUTPUT)..."
+	@# Create temporary header with CSS
+	@echo '<style>\
+	  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.6; color: #24292e; max-width: 850px; margin: 40px auto; padding: 0 30px; background-color: #f6f8fa; }\
+	  .main-card { background: white; padding: 45px; border: 1px solid #d1d5da; border-radius: 6px; box-shadow: 0 8px 24px rgba(149,157,165,0.1); }\
+	  h1 { color: #0366d6; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }\
+	  h2 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; color: #24292e; }\
+	  code { background-color: rgba(27,31,35,0.05); padding: 0.2em 0.4em; border-radius: 3px; font-family: monospace; font-size: 85%; color: #d73a49; }\
+	  pre { background-color: #f6f8fa; padding: 16px; border-radius: 6px; overflow: auto; border: 1px solid #dfe2e5; }\
+	  blockquote { border-left: 4px solid #dfe2e5; color: #6a737d; padding-left: 16px; margin: 0; font-style: italic; }\
+	  table { border-collapse: collapse; width: 100%; margin: 20px 0; }\
+	  th, td { border: 1px solid #dfe2e5; padding: 8px 12px; }\
+	  th { background-color: #f6f8fa; }\
+	</style>\
+	<div class="main-card">' > .tmp_header.html
+	@echo '</div>' > .tmp_footer.html
+
+	@# Run Pandoc
+	pandoc $(INPUT) -s \
+	  --metadata title=$(TITLE) \
+	  -H .tmp_header.html \
+	  -A .tmp_footer.html \
+	  -o $(OUTPUT)
+
+	@# Cleanup
+	@rm $(TEMPLATES)
+	@echo "Done! Open $(OUTPUT) to see the results."

@@ -11,3 +11,6 @@ goversioninfo.exe.manifest
 resource.syso
 rupdater_test.go
 files.txt
+r.sh
+footer.html
+.gitignore

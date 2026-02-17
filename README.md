@@ -1,20 +1,23 @@
+# 🚀 rupdater2
 
-# Rupdater2 (ROSE SWE website updater program version 2)
+> **Status:** ![Build](https://img.shields.io/badge/build-passing-brightgreen) ![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?logo=go)
 
-[rupdater2](https://github.com/roseswe/rupdater2) is a simple Go-based program that downloads files from a remote server (the ROSE SWE download page), verifies their MD5 hashes, and re-downloads files with mismatches. Optionally, it can delete files that do not match the expected MD5 hash.
+## Rupdater2 (ROSE SWE website updater program version 2)
+
+[rupdater2](https://github.com/roseswe/rupdater2) is a simple Go-based program that downloads files from a remote server (the ROSE SWE download page or www.cfg2html.com), verifies their MD5 hashes, and re-downloads files with mismatches/don't exist yet. Optionally, it can delete files that do not match the expected MD5 hash.
 
 This is the successor of rupdater, a bash script https://github.com/roseswe/rupdater
 
 ## Overview
 
-Currently, there is no integrated automated update mechanism for the programs from **ROSE SWE**. To address this, we provide a shell script, `rupdater`, to facilitate updates from the following sites:
+Currently, there is no integrated automated update mechanism for the programs from **ROSE SWE**. To address this, we had provided a shell script, `rupdater`, to facilitate updates from the following sites:
 
 - [rose.rult.at](http://rose.rult.at/)
 - [cfg2html.com](http://www.cfg2html.com)
 
-As rupdater (v1, shell script) has some shortcomings (Issue #2) we decided to program a complete new version in Go(lang) -> [rupdater2](https://github.com/roseswe/rupdater)
+As rupdater (v1, shell script) has some shortcomings (see for example github Issue #2) we decided to program a complete new version in Go(lang) -> [rupdater2](https://github.com/roseswe/rupdater)
 
-rupdater2 supports beside Linux also Windows environments, which the first version (rupdater) does not. Porting to other platforms like ARM64 etc. is possible.
+rupdater2 supports beside Linux also Windows and MacOS environments, which the first version (rupdater) does not. Porting to other platforms like ARM64 etc. is possible.
 
 ## Features
 
@@ -55,6 +58,7 @@ make
 ```
 
 This will generate the following executables in the `build` directory:
+
 - `build/rupdater32.exe` 32-bit Windows executable, PE32 executable (console) Intel 80386
 - `build/rupdater64.exe` 64-bit Windows executable, PE32+ executable (console) x86-64
 - `build/rupdater_i586`  32-bit Linux executable, static linked, should run on all Linux platforms that provide a 32bit runtime
@@ -104,7 +108,7 @@ Alternatively, if you don't have `make`, you can manually cross-compile the proj
    ```bash
    ./rupdater -h
 
-   ---=[ rupdater by ROSE SWE, (c) 2024 by Ralph Roth ]=------------------
+   ---=[ rupdater by ROSE SWE, (c) 2024-2026 by Ralph Roth ]=------------------
    Automatic update program to always get the newest files from ROSE SWE!
 
    Usage:
@@ -186,4 +190,4 @@ If you find any bugs or have feature requests, please open an issue on the GitHu
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-// END // $Id: README.md,v 1.12 2025/10/26 09:54:54 ralph Exp $
+// END // $Id: README.md,v 1.13 2026/02/17 13:51:14 ralph Exp $
