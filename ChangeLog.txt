@@ -7,6 +7,7 @@ Changelog
 
 Changes
 ~~~~~~~
+- Updated the Changelog (by Makefile) 20260217-14:52. [roseswe]
 - Update version identifiers in Makefile and main.go; add manifest.xml
   for Windows compatibility. [roseswe]
 - Updated the Changelog (by Makefile) 20251229-11:42. [roseswe]

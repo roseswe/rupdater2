@@ -1,5 +1,5 @@
 # Define the target name and Go source files
-# $Id: Makefile,v 1.23 2026/02/17 13:51:14 ralph Exp $
+# $Id: Makefile,v 1.24 2026/02/17 16:19:25 ralph Exp $
 
 # Variables
 TITLE = "ROSE SWE Updater - A tool to update ROSE Online client files from the official download page"
@@ -18,6 +18,8 @@ LINUX_ARCH = linux/386
 
 # Global Go flags to remove BuildID, omits the DWARF symbol table, removes the symbol table and debug information.
 GOFLAGS := -ldflags "-buildid= -w -s "
+CGO_LDFLAGS="-static-libgcc -static-libstdc++ -Wl"
+CGO_ENABLED=0
 ##  -buildmode=pie
 
 # Define a variable to hold the date
@@ -68,7 +70,7 @@ clean:
 rebuild: clean all
 	@echo "[!] Rebuilding project..."
 
-dist: clean all html
+dist: clean all html changelog
 	file $(BUILD_DIR)/$(TARGET)* > files.txt
 	echo "" >> files.txt
 	echo "## GLIBC requirements" >> files.txt
