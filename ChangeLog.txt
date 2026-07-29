@@ -7,6 +7,8 @@ Changelog
 
 Changes
 ~~~~~~~
+- Build run - Updated the Changelog (by Makefile) 20260729-17:12.
+  [roseswe]
 - Version bump to 2.3.x  - too many small changes to keep track off.
   [roseswe]
 - Updated the Changelog (by Makefile) 20260328-20:08. [roseswe]
