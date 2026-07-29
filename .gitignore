@@ -13,4 +13,7 @@ rupdater_test.go
 files.txt
 r.sh
 footer.html
-.gitignore
+testsuite/CVS/Entries
+Root
+Repository
+versioninfo.json

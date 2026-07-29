@@ -1,5 +1,5 @@
 # Define the target name and Go source files
-# $Id: Makefile,v 1.24 2026/02/17 16:19:25 ralph Exp $
+# $Id: Makefile,v 1.26 2026/03/29 21:21:04 ralph Exp $
 
 # Variables
 TITLE = "ROSE SWE Updater - A tool to update ROSE Online client files from the official download page"
@@ -42,10 +42,11 @@ built-darwin:
 
 # Windows (32+64-bit) build
 build-windows: $(BUILD_DIR)
-	goversioninfo -icon main.ico -o resource.syso versioninfo.json
+	GOOS=windows GOARCH=386 goversioninfo -icon main.ico -manifest=manifest.xml versioninfo.json
 	GOOS=windows GOARCH=386 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET)32.exe $(GOFILES)
 	strip $(BUILD_DIR)/$(TARGET)32.exe
 	@echo "[!] Windows 32-bit executable created: $(BUILD_DIR)/$(TARGET)32.exe"
+	goversioninfo -64 -icon=main.ico -manifest=manifest.xml versioninfo.json
 	GOOS=windows GOARCH=amd64 go build ${GOFLAGS} -o $(BUILD_DIR)/$(TARGET)64.exe $(GOFILES)
 	strip $(BUILD_DIR)/$(TARGET)64.exe
 	@echo "[!] Windows 64-bit executable created: $(BUILD_DIR)/$(TARGET)64.exe"
@@ -82,7 +83,7 @@ dist: clean all html changelog
 
 changelog:
 	gitchangelog > ChangeLog.txt
-	git commit -a -s -m "chg: Updated the Changelog (by Makefile) $(current_date_full)"
+	git commit -a -s -m "chg: Build run - Updated the Changelog (by Makefile) $(current_date_full)"
 	cat ChangeLog.txt
 
 # Help message
@@ -94,11 +95,11 @@ help:
 	@echo " 	 make rebuild  			- Clean and rebuild the project"
 	@echo " 	 make changelog			- Generate a changelog from git commits"
 	@echo " 	 make all      			- Build for all platforms"
-	@echo " 	 make build-windows - Build for Windows"
-	@echo " 	 make build-linux   - Build for Linux"
-	@echo " 	 make build-darwin  - Build for MacOS"
-	@echo " 	 make help          - Show this help message"
-	@echo "    make html          - Generate polished HTML from README.md"
+	@echo " 	 make build-windows     - Build for Windows"
+	@echo " 	 make build-linux       - Build for Linux"
+	@echo " 	 make build-darwin      - Build for MacOS"
+	@echo " 	 make help              - Show this help message"
+	@echo "         make html              - Generate polished HTML from README.md"
 
 html:
 	@echo "Style: Polishing $(INPUT) into $(OUTPUT)..."

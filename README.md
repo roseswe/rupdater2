@@ -4,7 +4,7 @@
 
 ## Rupdater2 (ROSE SWE website updater program version 2)
 
-[rupdater2](https://github.com/roseswe/rupdater2) is a simple Go-based program that downloads files from a remote server (the ROSE SWE download page or www.cfg2html.com), verifies their MD5 hashes, and re-downloads files with mismatches/don't exist yet. Optionally, it can delete files that do not match the expected MD5 hash.
+💡 [rupdater2](https://github.com/roseswe/rupdater2) is a simple Go-based program that downloads files from a remote server (the ROSE SWE download page or www.cfg2html.com), verifies their MD5 hashes, and re-downloads files with mismatches/don't exist yet. Optionally, it can delete files that do not match the expected MD5 hash.
 
 This is the successor of rupdater, a bash script https://github.com/roseswe/rupdater
 
@@ -15,9 +15,9 @@ Currently, there is no integrated automated update mechanism for the programs fr
 - [rose.rult.at](http://rose.rult.at/)
 - [cfg2html.com](http://www.cfg2html.com)
 
-As rupdater (v1, shell script) has some shortcomings (see for example github Issue #2) we decided to program a complete new version in Go(lang) -> [rupdater2](https://github.com/roseswe/rupdater)
-
-rupdater2 supports beside Linux also Windows and MacOS environments, which the first version (rupdater) does not. Porting to other platforms like ARM64 etc. is possible.
+>[!NOTE]
+🛠️ As rupdater (v1, shell script) has some shortcomings (see for example github Issue #2) we decided to program a complete new version in Go(lang) -> [rupdater2](https://github.com/roseswe/rupdater2)
+✨ rupdater2 supports beside Linux also Windows and MacOS environments, which the first version (rupdater) does not. Porting to other platforms and architectures like ARM64, Windows etc. are possible.
 
 ## Features
 
@@ -165,9 +165,9 @@ Alternatively, if you don't have `make`, you can manually cross-compile the proj
 
 Or successfully handled by rupdater...
 
+````
 * [New!] rms_3.9.2.zip downloading....[!] Error downloading file rms_3.9.2.zip: [!] ERROR: Failed to read response body: unexpected EOF
 
-````
 [!] WARNING1: MD5 mismatch for file rms_3.9.2.zip. Expected: [e02a2e706bf61bd55c2bf54a9ab0b04c], Got: [74c95c5db6fc83433fff5c7f501b39e2]
 [!] Attempting to re-download file rms_3.9.2.zip to resolve MD5 mismatch........
 [!] File rms_3.9.2.zip re-downloaded successfully.
@@ -190,4 +190,4 @@ If you find any bugs or have feature requests, please open an issue on the GitHu
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-// END // $Id: README.md,v 1.13 2026/02/17 13:51:14 ralph Exp $
+// END // \$Id: README.md,v 1.15 2026/04/22 05:43:31 ralph Exp $

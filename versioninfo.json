@@ -1,9 +1,9 @@
 {
-  "Version": "2.1.9.0",
+  "Version": "2.3.2.0",
   "ProductName": "rUpdater",
   "FileDescription": "Simple program that downloads files from a remote server (the ROSE SWE download page)",
   "CompanyName": "ROSE SWE",
-  "FileVersion": "2.1.9.0",
-  "ProductVersion": "2.1.9.0",
+  "FileVersion": "2.3.2.0",
+  "ProductVersion": "2.3.2.0",
   "Icon": "main.ico"
 }
