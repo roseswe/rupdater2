@@ -95,11 +95,11 @@ help:
 	@echo " 	 make rebuild  			- Clean and rebuild the project"
 	@echo " 	 make changelog			- Generate a changelog from git commits"
 	@echo " 	 make all      			- Build for all platforms"
-	@echo " 	 make build-windows     - Build for Windows"
-	@echo " 	 make build-linux       - Build for Linux"
-	@echo " 	 make build-darwin      - Build for MacOS"
-	@echo " 	 make help              - Show this help message"
-	@echo "         make html              - Generate polished HTML from README.md"
+	@echo " 	 make build-windows - Build for Windows"
+	@echo " 	 make build-linux   - Build for Linux"
+	@echo " 	 make build-darwin  - Build for MacOS"
+	@echo " 	 make help          - Show this help message"
+	@echo "         make html          - Generate polished HTML from README.md"
 
 html:
 	@echo "Style: Polishing $(INPUT) into $(OUTPUT)..."

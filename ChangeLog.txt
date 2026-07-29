@@ -7,6 +7,9 @@ Changelog
 
 Changes
 ~~~~~~~
+- Version bump to 2.3.x  - too many small changes to keep track off.
+  [roseswe]
+- Updated the Changelog (by Makefile) 20260328-20:08. [roseswe]
 - Updated the Changelog (by Makefile) 20260217-14:52. [roseswe]
 - Update version identifiers in Makefile and main.go; add manifest.xml
   for Windows compatibility. [roseswe]
