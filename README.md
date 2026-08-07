@@ -10,14 +10,14 @@ This is the successor of rupdater, a bash script https://github.com/roseswe/rupd
 
 ## Overview
 
-Currently, there is no integrated automated update mechanism for the programs from **ROSE SWE**. To address this, we had provided a shell script, `rupdater`, to facilitate updates from the following sites:
+Currently, there is no integrated automated update mechanism for the programs from **ROSE SWE**. To address this, we had provided in the past a shell script, `rupdater`, to facilitate updates from the following sites:
 
 - [rose.rult.at](http://rose.rult.at/)
 - [cfg2html.com](http://www.cfg2html.com)
 
 >[!NOTE]
 🛠️ As rupdater (v1, shell script) has some shortcomings (see for example github Issue #2) we decided to program a complete new version in Go(lang) -> [rupdater2](https://github.com/roseswe/rupdater2)
-✨ rupdater2 supports beside Linux also Windows and MacOS environments, which the first version (rupdater) does not. Porting to other platforms and architectures like ARM64, Windows etc. are possible.
+✨ rupdater2 supports beside Linux also Windows and MacOS environments, which the first version (rupdater) does not. Porting to other platforms and architectures like ARM64, RISC-V etc. are possible.
 
 ## Features
 
@@ -190,4 +190,4 @@ If you find any bugs or have feature requests, please open an issue on the GitHu
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-// END // \$Id: README.md,v 1.15 2026/04/22 05:43:31 ralph Exp $
+// END // \$Id: README.md,v 1.17 2026/08/07 07:28:38 ralph Exp $

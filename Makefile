@@ -1,5 +1,5 @@
 # Define the target name and Go source files
-# $Id: Makefile,v 1.26 2026/03/29 21:21:04 ralph Exp $
+# $Id: Makefile,v 1.27 2026/07/29 16:30:20 ralph Exp $
 # vim:set fileencoding=utf8 fileformat=unix filetype=makefile tabstop=8 noexpandtab:
 
 # Variables
