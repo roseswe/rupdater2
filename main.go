@@ -13,12 +13,13 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
 
 // Program version - see what(1) or mywhat
-const version = "@(#)$Id: main.go,v 1.14 2025/12/29 10:53:13 ralph Exp $"
+const version = "rupdater: @(#)$Id: main.go,v 1.15 2026/09/12 18:55:30 ralph Exp $"
 
 // var BuildDate string // This will be populated during the build
 // downloadFile downloads a file from the given URL and saves it as the given file name
@@ -86,13 +87,25 @@ func downloadFile(url, fileName string) error {
 	downloadRate := float64(totalBytes) / elapsed.Seconds() / (1024 * 1024) // MB/s
 
 	if (mins == 0 && secs < 3) || (mins > 10) {
-		fmt.Printf(" -> %v (%.2f MB/s) %d bytes", elapsed, downloadRate, totalBytes)  // 123us, 10min23s 1h23m || 65.98912ms (0.01 MB/s) 970 bytes OK!
+		fmt.Printf(" -> %v (%.2f MB/s) %s bytes", elapsed, downloadRate, formatThousands(totalBytes)) // 123us, 10min23s 1h23m || 65.98912ms (0.01 MB/s) 970 bytes OK!
 	} else {
-		fmt.Printf(" -> %dm%.2fs (%.2f MB/s) %d bytes", mins, secs, downloadRate, totalBytes)
+		fmt.Printf(" -> %dm%.2fs (%.2f MB/s) %s bytes", mins, secs, downloadRate, formatThousands(totalBytes))
 	}
 
 	return nil
 } // downloadFile
+
+func formatThousands(value int64) string {
+	formatted := strconv.FormatInt(value, 10)
+	start := 0
+	if strings.HasPrefix(formatted, "-") {
+		start = 1
+	}
+	for position := len(formatted) - 3; position > start; position -= 3 {
+		formatted = formatted[:position] + "." + formatted[position:]
+	}
+	return formatted
+}
 
 // calculateMD5 calculates the MD5 hash of a file
 func calculateMD5(filePath string) (string, error) {
