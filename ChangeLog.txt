@@ -7,6 +7,9 @@ Changelog
 
 Changes
 ~~~~~~~
+- Small updates on the readme. [roseswe]
+- Build run - Updated the Changelog (by Makefile) 20260729-17:45.
+  [roseswe]
 - Build run - Updated the Changelog (by Makefile) 20260729-17:12.
   [roseswe]
 - Version bump to 2.3.x  - too many small changes to keep track off.
@@ -22,6 +25,10 @@ Fix
 ~~~
 - Update copyright year and version in main.go; add CGO_ENABLED=0 for
   Linux builds in Makefile. [roseswe]
+
+Other
+~~~~~
+- Add: thousand separator added. [roseswe]
 
 
 1.12 (2025-03-08)

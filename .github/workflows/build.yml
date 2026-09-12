@@ -20,7 +20,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: '1.23'  # Set Go version // same as we have
+        go-version: '1.25'  # Set Go version // same as we have
 
     - name: Build for Windows (32-bit)
       run: |
