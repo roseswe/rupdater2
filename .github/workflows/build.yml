@@ -9,16 +9,19 @@ on:
       - 'v*'  # Trigger on version tags like v1.2.0
       - '1.*' # semantic versioning?
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest  # Use Ubuntu runner for cross-compilation
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v5
 
     - name: Set up Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v6
       with:
         go-version: '1.25'  # Set Go version // same as we have
 
@@ -31,39 +34,13 @@ jobs:
       run: |
         GOOS=linux GOARCH=386 go build -o build/rupdater main.go
 
-        # Unable to resolve action gh actions/create-release, repository not found. Unable to resolve action gh actions/upload-release-asset, repository not found
     - name: Create release and upload artifacts
-      id: release
-      #uses: gh actions/create-release@v1
-      uses: actions/create-release@v1
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        body: "Release for version ${{ github.ref }}"
-        draft: false
-        prerelease: false
-
-    - name: Upload Windows binary
-      # uses: gh_actions/upload-release-asset@v1
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: build/rupdater.exe
-        asset_name: rupdater.exe
-        asset_content_type: application/octet-stream
-
-    - name: Upload Linux binary
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: build/rupdater
-        asset_name: rupdater
-        asset_content_type: application/octet-stream
-
-    - name: Upload README.md
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: README.md
-        asset_name: README.md
-        asset_content_type: text/plain
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        gh release create "$GITHUB_REF_NAME" \
+          --title "Release $GITHUB_REF_NAME" \
+          --notes "Release for version $GITHUB_REF_NAME" \
+          build/rupdater.exe \
+          build/rupdater \
+          README.md
