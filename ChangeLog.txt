@@ -2,6 +2,15 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Build run - Updated the Changelog (by Makefile) 20261103-16:22.
+  [roseswe]
+
+
 1.15.1 (2026-09-12)
 -------------------
 

@@ -72,7 +72,7 @@ clean:
 rebuild: clean all
 	@echo "[!] Rebuilding project..."
 
-dist: clean all changelog 
+dist: clean all changelog
 	file $(BUILD_DIR)/$(TARGET)* > files.txt
 	echo "" >> files.txt
 	echo "## GLIBC requirements" >> files.txt
@@ -80,11 +80,11 @@ dist: clean all changelog
 	upx --best --lzma --force-macos $(BUILD_DIR)/$(TARGET)*
 	#pandoc README.md -t HTML -o readme.html
 	# _MP_ - MultiPlatform - new naming schema // 29.06.2026
-	zip -j "rupdater2_MP_$(current_date_mon).zip"	readme.html $(BUILD_DIR)/$(TARGET)* ChangeLog.txt rupdater_example.txt files.txt
+	zip -j "rupdater2_MP_$(current_date_mon).zip"	readme.html $(BUILD_DIR)/$(TARGET)* ChangeLog.txt rupdater_example.txt files.txt README.pdf
 	describe "rupdater2_MP_$(current_date_mon).zip" -desc="ROSE SWE updater release2 - downloads new software from the ROSE SWE download page"
 
 changelog:
-	gitchangelog > ChangeLog.txt
+	gitchangelog 2>/dev/null > ChangeLog.txt
 	git commit -a -s -m "chg: Build run - Updated the Changelog (by Makefile) $(current_date_full)"
 	cat ChangeLog.txt
 
