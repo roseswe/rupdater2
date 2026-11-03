@@ -2,11 +2,33 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+1.15.1 (2026-09-12)
+-------------------
 
 Changes
 ~~~~~~~
+- Updated release.yaml: [roseswe]
+
+  actions/checkout@v6
+  actions/setup-go@v6
+  goreleaser/goreleaser-action@v7
+  GoReleaser pinned to ~> v2 instead of latest
+
+Fix
+~~~
+- ? Replaced deprecated release/upload actions with authenticated gh
+  release create. Added contents: write permissions. Updated
+  actions/checkout to v5 and actions/setup-go to v6, removing the Node
+  20 warning. [roseswe]
+
+
+1.15 (2026-09-12)
+-----------------
+
+Changes
+~~~~~~~
+- Build run - Updated the Changelog (by Makefile) 20260912-21:10.
+  [roseswe]
 - Small updates on the readme. [roseswe]
 - Build run - Updated the Changelog (by Makefile) 20260729-17:45.
   [roseswe]

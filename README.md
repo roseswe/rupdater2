@@ -1,23 +1,23 @@
 # 🚀 rupdater2
 
-> **Status:** ![Build](https://img.shields.io/badge/build-passing-brightgreen) ![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?logo=go)
+
 
 ## Rupdater2 (ROSE SWE website updater program version 2)
 
 💡 [rupdater2](https://github.com/roseswe/rupdater2) is a simple Go-based program that downloads files from a remote server (the ROSE SWE download page or www.cfg2html.com), verifies their MD5 hashes, and re-downloads files with mismatches/don't exist yet. Optionally, it can delete files that do not match the expected MD5 hash.
 
-This is the successor of rupdater, a bash script https://github.com/roseswe/rupdater
+> This is the successor of rupdater, a bash script https://github.com/roseswe/rupdater
 
 ## Overview
 
 Currently, there is no integrated automated update mechanism for the programs from **ROSE SWE**. To address this, we had provided in the past a shell script, `rupdater`, to facilitate updates from the following sites:
 
-- [rose.rult.at](http://rose.rult.at/)
+- [ROSE SWE home page](http://rose-swe.bplaced.net/)
 - [cfg2html.com](http://www.cfg2html.com)
 
 >[!NOTE]
-🛠️ As rupdater (v1, shell script) has some shortcomings (see for example github Issue #2) we decided to program a complete new version in Go(lang) -> [rupdater2](https://github.com/roseswe/rupdater2)
-✨ rupdater2 supports beside Linux also Windows and MacOS environments, which the first version (rupdater) does not. Porting to other platforms and architectures like ARM64, RISC-V etc. are possible.
+>> 🛠️ As rupdater (v1, shell script) has some shortcomings (see for example github Issue #2) we decided to program a complete new version in Go(lang) -> [rupdater2](https://github.com/roseswe/rupdater2)
+>> ✨ rupdater2 supports beside Linux also Windows and MacOS environments, which the first version (rupdater) does not. Porting to other platforms and architectures like ARM64, RISC-V etc. are possible.
 
 ## Features
 
@@ -29,8 +29,8 @@ Currently, there is no integrated automated update mechanism for the programs fr
 
 ## Special note about the macOS (Darwin) binary provided
 
-The Darwin64 binary included in this package **is not signed** by us (ROSE SWE). Due to macOS security features, you may encounter a warning when trying to run it. However, if you trust this application and want to run it, you can do so. macOS Gatekeeper is a security feature designed to ensure that only trusted software runs on your Mac, enhancing the overall safety of the operating system. When you attempt to open an application that is not signed, like this Darwin64 binary that lacks the necessary digital signature, Gatekeeper triggers a warning. This is a precautionary measure to protect your system from potentially harmful software. If you trust the source of the unsigned application and wish to proceed, you can bypass Gatekeeper's restrictions.
-
+>[!CAUTION]
+> The Darwin64 binary included in this package **is not signed** by us (ROSE SWE). Due to macOS security features, you may encounter a warning when trying to run it. However, if you trust this application and want to run it, you can do so. macOS Gatekeeper is a security feature designed to ensure that only trusted software runs on your Mac, enhancing the overall safety of the operating system. When you attempt to open an application that is not signed, like this Darwin64 binary that lacks the necessary digital signature, Gatekeeper triggers a warning. This is a precautionary measure to protect your system from potentially harmful software. If you trust the source of the unsigned application and wish to proceed, you can bypass Gatekeeper's restrictions.
    - Go to `System Preferences > Security & Privacy`.
    - In the "General" tab, you should see a message about the blocked application. Click on "Open Anyway."
 
@@ -173,6 +173,35 @@ Or successfully handled by rupdater...
 [!] File rms_3.9.2.zip re-downloaded successfully.
 [!] File rms_3.9.2.zip is now valid after re-downloading (MD5 matches)
 ````
+## Example for mismatching MD5 sum
+
+```
+$ ./rupdater_amd64
+---=[ rupdater by ROSE SWE, (c) 2024-2026 by Ralph Roth ]=------------------
+Automatic update program to always get the newest files from ROSE SWE!
+
+[Info] Mirroring now website:http://rose-swe.bplaced.net/dl/ -> 57.96298ms (0.02 MB/s) 1.011 bytes OK!
+
+[!OK!] MemScan-DOS_51-5.zip is valid (MD5 matches)
+[New!] MPScan_MP_6.6.zip downloading....... -> 0m33.44s (0.25 MB/s) 8.757.746 bytes OK!
+[!OK!] MPScan_MP_6.6.zip is valid (MD5 matches)
+
+[!OK!] rms_MP_5.12.zip is valid (MD5 matches)
+[New!] RMS_NG_MP-1.5.zip downloading............................................................................................................... -> 14m28.554122795s (0.25 MB/s) 227.385.908 bytes OK!
+[!OK!] RMS_NG_MP-1.5.zip is valid (MD5 matches)
+[!OK!] rPCP-DOS_Rel-23.7z is valid (MD5 matches)
+[!OK!] rupdater2_MP_202607.zip is valid (MD5 matches)
+[!OK!] rUPP_Rel-049.7z is valid (MD5 matches)
+[New!] rvct_MP-Rel-083.7z downloading.......... -> 0m58.79s (0.25 MB/s) 15.398.265 bytes OK!
+[!] WARNING1: MD5 mismatch for file rvct_MP-Rel-083.7z. Expected: [d41d8cd98f00b204e9800998ecf8427e], Got: [e69645918dcf0fcab13f4f4188c122ee]
+[!] Attempting to re-download file rvct_MP-Rel-083.7z to resolve MD5 mismatch.......... -> 0m58.78s (0.25 MB/s) 15.398.265 bytes
+[!] File rvct_MP-Rel-083.7z re-downloaded successfully.
+[!] WARNING2: MD5 mismatch still persists for file rvct_MP-Rel-083.7z. Expected: [d41d8cd98f00b204e9800998ecf8427e], Got: [e69645918dcf0fcab13f4f4188c122ee]
+[!] Mismatched file rvct_MP-Rel-083.7z deleted.
+[!OK!] ViBa_DOS_3-43.zip is valid (MD5 matches)
+[!OK!] VirScanPlus-DOS_32-7.zip is valid (MD5 matches)
+
+```
 
 ## WSL
 
@@ -190,4 +219,4 @@ If you find any bugs or have feature requests, please open an issue on the GitHu
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-// END // \$Id: README.md,v 1.17 2026/08/07 07:28:38 ralph Exp $
+// END // \$Id: README.md,v 1.21 2026/10/29 19:31:37 ralph Exp $

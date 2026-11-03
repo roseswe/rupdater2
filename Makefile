@@ -28,7 +28,7 @@ current_date_mon := $(shell date +%Y%m)
 current_date_full := $(shell date +%Y%m%d-%H:%M)
 
 # Default target
-all: build-windows build-linux built-darwin html
+all: build-windows build-linux built-darwin html pdf
 .PHONY: all html clean
 
 
@@ -72,7 +72,7 @@ clean:
 rebuild: clean all
 	@echo "[!] Rebuilding project..."
 
-dist: clean all html changelog
+dist: clean all changelog 
 	file $(BUILD_DIR)/$(TARGET)* > files.txt
 	echo "" >> files.txt
 	echo "## GLIBC requirements" >> files.txt
@@ -102,6 +102,7 @@ help:
 	@echo "	 make build-darwin	- Build for MacOS"
 	@echo "	 make help		- Show this help message"
 	@echo "	 make html		- Generate polished HTML from README.md"
+	@echo "	 make pdf		- Generate PDF from README.md"
 
 html:
 	@echo "Style: Polishing $(INPUT) into $(OUTPUT)..."
@@ -132,3 +133,6 @@ html:
 	@rm $(TEMPLATES)
 	@echo "Done! Open $(OUTPUT) to see the results."
 
+pdf:
+	@echo "Generating PDF"
+	markdown2pdf README.md
