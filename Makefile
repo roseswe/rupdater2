@@ -1,5 +1,5 @@
 # Makefile for rupdater -- pure-Go build, no C toolchain.
-# $Id: Makefile,v 1.30 2026/11/09 13:30:00 ralph Exp $
+# $Id: Makefile,v 1.30 2026/11/09 12:56:41 ralph Exp $
 # vim:set fileencoding=utf8 fileformat=unix filetype=makefile tabstop=8 noexpandtab:
 
 # ----------------------------------------------------------------------------
@@ -28,7 +28,7 @@ export CGO_ENABLED = 0
 .NOTPARALLEL:
 
 # ── variables ────────────────────────────────────────────────
-TITLE     = "ROSE SWE Updater - A tool to update ROSE Online client files from the official download page"
+TITLE     = "ROSE SWE Updater - A tool to update ROSE SWE Online client files from the official download page"
 INPUT     = README.md
 OUTPUT    = readme.html
 TEMPLATES = .tmp_header.html .tmp_footer.html
@@ -100,6 +100,7 @@ changelog:
 	cat ChangeLog.txt
 
 # ── dist (release zip) ───────────────────────────────────────
+# ── dist (release zip) ───────────────────────────────────────
 dist: clean all changelog docs
 	file $(BUILD_DIR)/$(TARGET)* > files.txt
 	echo "" >> files.txt
@@ -111,14 +112,23 @@ dist: clean all changelog docs
 	else \
 		echo "[!] upx not found, skipping compression"; \
 	fi
+	echo "" >> files.txt
+	echo "## macOS note (UPX-packed binary)" >> files.txt
+	echo "The rupdater-darwin64 binary is UPX-compressed and unsigned." >> files.txt
+	echo "macOS Gatekeeper will quarantine it. To run it, execute once" >> files.txt
+	echo "after downloading:" >> files.txt
+	echo "" >> files.txt
+	echo "    xattr -d com.apple.quarantine build/rupdater-darwin64" >> files.txt
+	echo "    codesign --force --deep -s - build/rupdater-darwin64" >> files.txt
+	echo "" >> files.txt
+	echo "Alternatively, build from source with 'make build-darwin'." >> files.txt
 	zip -j "rupdater2_MP_$(current_date_mon).zip" \
 		readme.html $(BUILD_DIR)/$(TARGET)* ChangeLog.txt \
 		rupdater_example.txt files.txt README.pdf
 	@if command -v describe >/dev/null 2>&1; then \
 		describe "rupdater2_MP_$(current_date_mon).zip" \
-			-desc="ROSE SWE updater release2"; \
+			-desc="ROSE SWE web updater release2"; \
 	fi
-
 # ── help ─────────────────────────────────────────────────────
 help:
 	@echo "|== Makefile commands =="
