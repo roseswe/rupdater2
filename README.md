@@ -219,4 +219,4 @@ If you find any bugs or have feature requests, please open an issue on the GitHu
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-// END // \$Id: README.md,v 1.21 2026/10/29 19:31:37 ralph Exp $
+// END // \$Id: README.md,v 1.22 2026/11/03 15:47:51 ralph Exp $
