@@ -1,5 +1,5 @@
 # Makefile for rupdater -- pure-Go build, no C toolchain.
-# $Id: Makefile,v 1.29 2026/11/09 13:00:00 ralph Exp $
+# $Id: Makefile,v 1.30 2026/11/09 13:30:00 ralph Exp $
 # vim:set fileencoding=utf8 fileformat=unix filetype=makefile tabstop=8 noexpandtab:
 
 # ----------------------------------------------------------------------------
@@ -16,6 +16,9 @@
 #  - Go 1.26+ requires `goversioninfo -64` for the amd64 build: the
 #    linker bug fix that separates 386/amd64 relocations means the
 #    default 386 .syso will no longer link into a 64-bit binary.
+#  - UPX needs --force-macos on modern releases to pack Mach-O binaries.
+#    The packed macOS binary often will not run under Gatekeeper; the
+#    || echo fallback keeps make dist working regardless.
 # ----------------------------------------------------------------------------
 
 export CGO_ENABLED = 0
@@ -52,8 +55,6 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 # ── Windows (32+64-bit) ──────────────────────────────────────
-# goversioninfo writes resource.syso into the source dir.
-# -64 flag is REQUIRED on Go 1.26+ for the amd64 build.
 build-windows: $(BUILD_DIR)
 	goversioninfo -icon=main.ico -manifest=manifest.xml versioninfo.json
 	GOOS=windows GOARCH=386   go build -ldflags='$(LDFLAGS_RELEASE)' \
@@ -65,9 +66,6 @@ build-windows: $(BUILD_DIR)
 	@echo "[!] Windows 64-bit executable: $(BUILD_DIR)/$(TARGET)64.exe"
 
 # ── Linux (32+64-bit) ────────────────────────────────────────
-# rm resource.syso FIRST: build-windows leaves a PE object there,
-# and linking it into an ELF binary fails with
-#   "unknown relocation type 3".
 build-linux: $(BUILD_DIR)
 	rm -f resource.syso
 	GOOS=linux GOARCH=386   go build -ldflags='$(LDFLAGS_RELEASE)' \
@@ -84,7 +82,7 @@ build-darwin: $(BUILD_DIR)
 		-o $(BUILD_DIR)/$(TARGET)-darwin64 .
 	@echo "[!] macOS 64-bit executable:   $(BUILD_DIR)/$(TARGET)-darwin64"
 
-# ── docs (separate: not every dev box has pandoc/markdown2pdf) ─
+# ── docs ─────────────────────────────────────────────────────
 docs: html pdf
 
 # ── clean ────────────────────────────────────────────────────
@@ -108,7 +106,8 @@ dist: clean all changelog docs
 	echo "## GLIBC requirements" >> files.txt
 	ldd -v $(BUILD_DIR)/$(TARGET)* >> files.txt || true
 	@if command -v upx >/dev/null 2>&1; then \
-		upx --best --lzma $(BUILD_DIR)/$(TARGET)*; \
+		upx --best --lzma --force-macos $(BUILD_DIR)/$(TARGET)* || \
+			echo "[!] UPX reported errors, continuing"; \
 	else \
 		echo "[!] upx not found, skipping compression"; \
 	fi
@@ -162,4 +161,3 @@ html: $(INPUT)
 pdf:
 	@echo "Generating PDF"
 	markdown2pdf README.md
-	
